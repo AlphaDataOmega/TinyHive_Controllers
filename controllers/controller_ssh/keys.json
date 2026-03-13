@@ -1,0 +1,26 @@
+{
+  "controller_id": "controller_ssh",
+  "name": "Controller SSH",
+  "description": "Local and remote command execution. SSH to servers, run system commands.",
+  "version": "1.0",
+  "keys": [
+    {
+      "key": "SSH_DEFAULT_HOST",
+      "label": "Default SSH Host",
+      "category": "SSH",
+      "required": false,
+      "sensitive": false,
+      "hint": "user@hostname or hostname",
+      "description": "Default host for SSH connections when none specified"
+    },
+    {
+      "key": "SSH_PRIVATE_KEY_PATH",
+      "label": "SSH Private Key Path",
+      "category": "SSH",
+      "required": false,
+      "sensitive": false,
+      "hint": "~/.ssh/id_rsa",
+      "description": "Path to SSH private key file"
+    }
+  ]
+}

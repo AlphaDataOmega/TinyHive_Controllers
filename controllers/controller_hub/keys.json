@@ -1,0 +1,7 @@
+{
+  "controller_id": "controller_hub",
+  "name": "Controller Hub",
+  "description": "Multi-controller orchestration. Runs execution scripts that chain calls across other controllers.",
+  "version": "1.0",
+  "keys": []
+}

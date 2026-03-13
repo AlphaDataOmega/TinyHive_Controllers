@@ -1,0 +1,28 @@
+{
+  "controller_id": "controller_playwright",
+  "name": "Controller Playwright",
+  "description": "Browser automation. Navigates sites, fills forms, takes screenshots.",
+  "version": "1.0",
+  "keys": [
+    {
+      "key": "PLAYWRIGHT_HEADLESS",
+      "label": "Headless Mode",
+      "category": "Playwright",
+      "required": false,
+      "sensitive": false,
+      "hint": "true",
+      "default": "true",
+      "description": "Run browser in headless mode (no GUI)"
+    },
+    {
+      "key": "PLAYWRIGHT_BROWSER",
+      "label": "Browser Type",
+      "category": "Playwright",
+      "required": false,
+      "sensitive": false,
+      "hint": "chromium",
+      "default": "chromium",
+      "description": "Browser to use: chromium, firefox, or webkit"
+    }
+  ]
+}
