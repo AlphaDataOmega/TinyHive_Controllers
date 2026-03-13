@@ -1,62 +1,133 @@
-# TinyHive Controllers
+<p align="center">
+  <img src="https://alphadataomega.com/tinyhive-logo.png" alt="TinyHive" width="80" />
+</p>
 
-Controllers are the execution layer that connects TinyHive agents to external systems. They translate agent requests into real-world actions — running commands, automating browsers, calling APIs, and orchestrating workflows.
+<h1 align="center">TinyHive Controllers</h1>
 
-## Architecture
+<p align="center">
+  <strong>Execution Layer for TinyHive Agents</strong><br>
+  Modular integrations that connect your AI to the real world.
+</p>
+
+---
+
+## What Are Controllers?
+
+Controllers are the **hands** of TinyHive — they translate agent decisions into real-world actions. Each controller:
+
+- **Executes specific actions** (SSH commands, browser automation, API calls)
+- **Defines required credentials** in `keys.json`
+- **Operates under governance** from SPINE
+- **Lives under BODY** as child agents
 
 ```
-SPINE (governance) → BODY (execution) → MIND (orchestration)
-                        ↳ Controllers live here
+MIND (orchestration)
+    ↓ requests action
+SPINE (governance) ──→ validates lease/permissions
+    ↓ approved
+BODY (execution)
+    ↓ dispatches to
+CONTROLLER ──→ executes action ──→ external system
 ```
 
-Controllers are child agents of BODY. They receive work through the inbox system and execute actions on external platforms, devices, and tools.
+## Available Controllers
 
-## Quick Start
+| Controller | Purpose | Keys Required |
+|------------|---------|---------------|
+| `controller_hub` | Multi-controller orchestration | None |
+| `controller_ssh` | Local/remote command execution | Optional SSH config |
+| `controller_playwright` | Browser automation | None |
 
-### 1. Choose a Controller Template
+### Coming Soon
+
+| Controller | Purpose |
+|------------|---------|
+| `controller_telegram` | Telegram bot notifications |
+| `controller_google` | Gmail, Drive, Calendar |
+| `controller_gcp` | Google Cloud Platform |
+| `controller_fal` | Fal.ai image/video generation |
+| `controller_vapi` | Voice AI assistants |
+| `controller_monday` | Monday.com project management |
+
+## Installation
+
+### Via TinyHive CLI
 
 ```bash
-cp -r templates/controller_template controllers/controller_myservice
+# List available controllers
+python3 -m setup.registry_sync list controllers
+
+# Fetch a specific controller
+python3 -m setup.registry_sync fetch controller controller_ssh
+
+# Sync all controllers from your controllers.json
+python3 -m setup.registry_sync sync controllers
 ```
 
-### 2. Define Your Controller
+### Manual
 
-Edit `controllers/controller_myservice/IDENTITY.md`:
-- Set the role and description
-- Define capabilities
-- Specify constraints
+```bash
+# Clone the repo
+git clone https://github.com/AlphaDataOmega/TinyHive-Controllers.git
 
-### 3. Implement Actions
-
-Edit `controllers/controller_myservice/projects/myservice.py`:
-```python
-ACTIONS = {
-    "action_name": action_function,
-}
-
-def execute(profile: str, action: str, params: dict) -> dict:
-    """Dispatch entry point."""
-    return ACTIONS[action](profile, params)
+# Copy a controller to your TinyHive
+cp -r TinyHive-Controllers/controllers/controller_ssh \
+      ~/.tinyhive/agents/ado_live_body/children/
 ```
 
-### 4. Register in Blueprint
+## Controller Structure
 
-Add to your hive's `config/controllers_blueprint.json`:
+```
+controller_name/
+├── IDENTITY.md      # Role, capabilities, constraints
+├── keys.json        # Required credentials definition
+├── projects/
+│   └── name.py      # Action implementations
+├── profiles/        # Service-specific configs
+├── tools/           # Helper utilities
+├── memory/          # Persistent state
+├── output/          # Execution outputs
+└── docs/            # Documentation
+```
+
+## keys.json Schema
+
+Each controller defines its required credentials:
+
 ```json
 {
-  "agent_id": "controller_myservice",
-  "name": "CONTROLLER-MYSERVICE",
-  "role": "controller",
-  "parent": "ado_live_body",
-  "description": "...",
-  "capabilities": [...],
-  "constraints": [...]
+  "controller_id": "controller_telegram",
+  "name": "Controller Telegram",
+  "description": "Telegram bot integration",
+  "version": "1.0",
+  "keys": [
+    {
+      "key": "TELEGRAM_BOT_TOKEN",
+      "label": "Telegram Bot Token",
+      "category": "Telegram",
+      "required": true,
+      "sensitive": true,
+      "hint": "123456:ABC-DEF...",
+      "description": "Bot token from @BotFather"
+    },
+    {
+      "key": "TELEGRAM_CHAT_ID",
+      "label": "Telegram Chat ID",
+      "category": "Telegram",
+      "required": true,
+      "sensitive": false,
+      "hint": "-1001234567890"
+    }
+  ]
 }
 ```
+
+The TinyHive UI reads `keys.json` to display credential forms during setup.
 
 ## Method ID Format
 
 All controller invocations use:
+
 ```
 controller.{type}.{profile}.{action}
 ```
@@ -66,47 +137,121 @@ Examples:
 - `controller.playwright.twitter.run_flow`
 - `controller.telegram.default.send_message`
 
-## Pre-installed Controllers
+## Creating a Controller
 
-| Controller | Type | Description |
-|------------|------|-------------|
-| **hub** | Orchestration | Multi-step workflow engine |
-| **ssh** | System | Local/remote command execution |
-| **playwright** | Browser | Mobile-emulated web automation |
+### 1. Copy the template
 
-## Available Templates
+```bash
+cp -r templates/controller_template controllers/controller_myservice
+```
+
+### 2. Define IDENTITY.md
+
+```markdown
+# CONTROLLER-MYSERVICE
+
+Agent ID: `controllers/controller_myservice`
+
+## Role
+What this controller does.
+
+## Capabilities
+- Action 1
+- Action 2
+
+## Constraints
+- What requires approval
+- Rate limits
+- Forbidden actions
+```
+
+### 3. Define keys.json
+
+```json
+{
+  "controller_id": "controller_myservice",
+  "name": "Controller MyService",
+  "description": "Integration with MyService",
+  "version": "1.0",
+  "keys": [
+    {
+      "key": "MYSERVICE_API_KEY",
+      "label": "MyService API Key",
+      "category": "MyService",
+      "required": true,
+      "sensitive": true,
+      "hint": "ms_..."
+    }
+  ]
+}
+```
+
+### 4. Implement actions
+
+```python
+# projects/myservice.py
+
+ACTIONS = {
+    "send": send_action,
+    "fetch": fetch_action,
+}
+
+def send_action(profile: str, params: dict) -> dict:
+    """Send something to MyService."""
+    api_key = get_secret("MYSERVICE_API_KEY")
+    # ... implementation
+    return {"status": "ok", "result": ...}
+
+def execute(profile: str, action: str, params: dict) -> dict:
+    """Dispatch entry point."""
+    if action not in ACTIONS:
+        raise ValueError(f"Unknown action: {action}")
+    return ACTIONS[action](profile, params)
+```
+
+## Templates
 
 | Template | Use Case |
 |----------|----------|
-| `controller_template` | Basic controller scaffold |
+| `controller_template` | Basic scaffold |
 | `controller_api_template` | REST API integration |
-| `controller_oauth_template` | OAuth-authenticated services |
-| `controller_device_template` | Device/hardware control |
 
 ## Runtime Features
 
 The controller runtime provides:
 
-- **Execution queue** — SQLite-backed job queue with priority ordering
+- **Execution queue** — SQLite-backed job queue with priority
 - **Circuit breaker** — Prevents cascading failures (5 failures → open)
 - **Rate limiting** — Token bucket per controller type
-- **Idempotency cache** — Prevents duplicate executions (1-hour TTL)
+- **Idempotency cache** — Prevents duplicates (1-hour TTL)
 - **Lease verification** — SPINE-issued capability permissions
 
 ## Documentation
 
-- [Controller Development Guide](docs/DEVELOPMENT.md)
-- [Workspace Standard](docs/WORKSPACE_STANDARD.md)
-- [Runtime Model](docs/RUNTIME_MODEL.md)
-- [Governance & Constraints](docs/GOVERNANCE.md)
+- [Controller Development Guide](docs/controllers/DEVELOPMENT.md)
+- [Workspace Standard](docs/controllers/WORKSPACE_STANDARD.md)
+
+## Related Repositories
+
+| Repo | Description |
+|------|-------------|
+| [tinyhive_v0-EX](https://github.com/AlphaDataOmega/tinyhive_v0-EX) | Standalone Linux edition |
+| [TinyHive_Consultant-Children](https://github.com/AlphaDataOmega/TinyHive_Consultant-Children) | Consultant agents |
 
 ## Contributing
 
 1. Fork this repository
 2. Create your controller in `controllers/`
-3. Add tests in `tests/`
-4. Submit a pull request
+3. Include `IDENTITY.md` and `keys.json`
+4. Add tests in `tests/`
+5. Submit a pull request
 
 ## License
 
 MIT
+
+---
+
+<p align="center">
+  Part of the <a href="https://github.com/AlphaDataOmega">TinyHive</a> ecosystem
+</p>
