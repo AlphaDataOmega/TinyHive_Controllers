@@ -1,0 +1,18 @@
+{
+  "name": "check_dms",
+  "description": "Check direct messages/inbox",
+  "steps": [
+    {
+      "action": "navigate",
+      "params": {"page": "inbox"}
+    },
+    {
+      "action": "screenshot",
+      "params": {"label": "inbox"}
+    },
+    {
+      "action": "extract_text",
+      "params": {"selector": ".message-list"}
+    }
+  ]
+}

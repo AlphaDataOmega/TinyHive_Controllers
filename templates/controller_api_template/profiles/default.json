@@ -1,0 +1,7 @@
+{
+  "name": "default",
+  "description": "Default API profile",
+  "base_url": "https://api.example.com/v1",
+  "api_key_env": "EXAMPLE_API_KEY",
+  "timeout": 30
+}

@@ -1,0 +1,9 @@
+{
+  "name": "home",
+  "url": "https://example.com",
+  "selectors": {
+    "feed": ".feed",
+    "nav": "nav",
+    "search": "input[type=search]"
+  }
+}

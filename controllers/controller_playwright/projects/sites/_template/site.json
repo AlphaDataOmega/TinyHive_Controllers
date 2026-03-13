@@ -1,0 +1,13 @@
+{
+  "name": "_template",
+  "description": "Template site profile — copy and customize for your site",
+  "base_url": "https://example.com",
+  "login_secrets_key": "example_login",
+  "selectors": {
+    "login_email": "#email",
+    "login_password": "#password",
+    "login_submit": "button[type=submit]",
+    "logged_in_indicator": ".user-menu"
+  },
+  "notes": "Replace all selectors after visiting the actual site"
+}

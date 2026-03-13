@@ -1,0 +1,24 @@
+{
+  "name": "example_workflow",
+  "description": "Example multi-step workflow demonstrating controller orchestration",
+  "steps": [
+    {
+      "id": "check_system",
+      "controller": "ssh",
+      "profile": "localhost",
+      "action": "exec",
+      "params": {
+        "command": "uptime && free -h"
+      }
+    },
+    {
+      "id": "take_screenshot",
+      "controller": "playwright",
+      "profile": "_template",
+      "action": "screenshot",
+      "params": {
+        "label": "workflow_start"
+      }
+    }
+  ]
+}

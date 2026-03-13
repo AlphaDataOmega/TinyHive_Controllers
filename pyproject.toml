@@ -1,0 +1,40 @@
+[project]
+name = "tinyhive-controllers"
+version = "0.1.0"
+description = "TinyHive Controller SDK - Build controllers for TinyHive agents"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "TinyHive", email = "hello@tinyhive.dev"}
+]
+keywords = ["tinyhive", "controllers", "agents", "automation"]
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+playwright = [
+    "playwright>=1.40",
+]
+telegram = [
+    "python-telegram-bot>=20.0",
+]
+
+[project.scripts]
+controller-dispatch = "core.dispatch:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+
+[tool.setuptools.packages.find]
+include = ["core*", "controllers*"]
