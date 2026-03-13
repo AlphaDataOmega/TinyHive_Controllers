@@ -1,0 +1,116 @@
+{
+  "hubspot": {
+    "api_key_env": "HUBSPOT_API_KEY",
+    "portal_id": "12345678"
+  },
+  "intercom": {
+    "token_env": "INTERCOM_ACCESS_TOKEN",
+    "app_id": "your_app_id"
+  },
+  "jenkins": {
+    "base_url": "https://jenkins.example.com",
+    "username_env": "JENKINS_USER",
+    "api_token_env": "JENKINS_API_TOKEN"
+  },
+  "jira": {
+    "base_url": "https://your-domain.atlassian.net",
+    "email_env": "JIRA_EMAIL",
+    "api_token_env": "JIRA_API_TOKEN",
+    "project_key": "PROJ"
+  },
+  "kubernetes": {
+    "kubeconfig_path": "~/.kube/config",
+    "context": "default",
+    "namespace": "default"
+  },
+  "linear": {
+    "api_key_env": "LINEAR_API_KEY",
+    "team_id": "TEAM_ID"
+  },
+  "mailchimp": {
+    "api_key_env": "MAILCHIMP_API_KEY",
+    "server_prefix": "us1"
+  },
+  "make": {
+    "api_token_env": "MAKE_API_TOKEN",
+    "base_url": "https://us1.make.com/api/v2",
+    "team_id": "12345"
+  },
+  "marketo": {
+    "base_url": "https://123-ABC-456.mktorest.com",
+    "client_id_env": "MARKETO_CLIENT_ID",
+    "client_secret_env": "MARKETO_CLIENT_SECRET"
+  },
+  "mistral": {
+    "api_key_env": "MISTRAL_API_KEY",
+    "model": "mistral-large-latest"
+  },
+  "mixpanel": {
+    "token_env": "MIXPANEL_TOKEN",
+    "project_id": "1234567"
+  },
+  "monday": {
+    "api_token_env": "MONDAY_API_TOKEN",
+    "board_id": "1234567890"
+  },
+  "mongodb": {
+    "connection_string_env": "MONGODB_URI",
+    "database": "production"
+  },
+  "netlify": {
+    "token_env": "NETLIFY_AUTH_TOKEN",
+    "site_id": "your-site-id"
+  },
+  "notion": {
+    "token_env": "NOTION_TOKEN",
+    "database_id": "your-database-id"
+  },
+  "okta": {
+    "base_url": "https://your-domain.okta.com",
+    "api_token_env": "OKTA_API_TOKEN"
+  },
+  "openai": {
+    "api_key_env": "OPENAI_API_KEY",
+    "organization_id": "org-xxxxxxxxxxxx",
+    "model": "gpt-4"
+  },
+  "oracle": {
+    "base_url": "https://your-region.oraclecloud.com",
+    "tenancy_ocid_env": "OCI_TENANCY_OCID",
+    "user_ocid_env": "OCI_USER_OCID",
+    "fingerprint_env": "OCI_FINGERPRINT",
+    "private_key_path": "~/.oci/oci_api_key.pem"
+  },
+  "pagerduty": {
+    "api_key_env": "PAGERDUTY_API_KEY",
+    "service_id": "PXXXXXX"
+  },
+  "paypal": {
+    "client_id_env": "PAYPAL_CLIENT_ID",
+    "client_secret_env": "PAYPAL_CLIENT_SECRET",
+    "mode": "sandbox"
+  },
+  "pinterest": {
+    "access_token_env": "PINTEREST_ACCESS_TOKEN",
+    "ad_account_id": "1234567890"
+  },
+  "pipedrive": {
+    "api_token_env": "PIPEDRIVE_API_TOKEN",
+    "company_domain": "your-company"
+  },
+  "plausible": {
+    "api_key_env": "PLAUSIBLE_API_KEY",
+    "base_url": "https://plausible.io/api/v1",
+    "site_id": "example.com"
+  },
+  "posthog": {
+    "api_key_env": "POSTHOG_API_KEY",
+    "host": "https://app.posthog.com",
+    "project_id": "12345"
+  },
+  "prometheus": {
+    "base_url": "http://prometheus.example.com:9090",
+    "username_env": "PROMETHEUS_USER",
+    "password_env": "PROMETHEUS_PASSWORD"
+  }
+}

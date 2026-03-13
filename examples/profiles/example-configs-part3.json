@@ -1,0 +1,363 @@
+{
+  "quickbooks": {
+    "description": "QuickBooks Online API for invoices, customers, payments, and accounting",
+    "env_vars": ["QUICKBOOKS_ACCESS_TOKEN"],
+    "example_profile": {
+      "access_token_env": "QUICKBOOKS_ACCESS_TOKEN",
+      "realm_id": "123456789",
+      "sandbox": false
+    },
+    "actions": ["list_invoices", "create_invoice", "get_customer", "create_payment", "list_accounts", "get_company_info"]
+  },
+  "reddit": {
+    "description": "Reddit API for posts, comments, subreddits, and user data",
+    "env_vars": ["REDDIT_CLIENT_ID", "REDDIT_CLIENT_SECRET", "REDDIT_REFRESH_TOKEN"],
+    "example_profile": {
+      "client_id_env": "REDDIT_CLIENT_ID",
+      "client_secret_env": "REDDIT_CLIENT_SECRET",
+      "refresh_token_env": "REDDIT_REFRESH_TOKEN",
+      "user_agent": "TinyHive/1.0"
+    },
+    "actions": ["get_subreddit", "list_posts", "create_post", "get_comments", "submit_comment", "get_user"]
+  },
+  "redis": {
+    "description": "Redis key-value store for caching, pub/sub, and data structures",
+    "env_vars": ["REDIS_URL", "REDIS_PASSWORD"],
+    "example_profile": {
+      "url_env": "REDIS_URL",
+      "password_env": "REDIS_PASSWORD",
+      "db": 0,
+      "ssl": true
+    },
+    "actions": ["get", "set", "delete", "expire", "hget", "hset", "lpush", "publish", "subscribe"]
+  },
+  "replicate": {
+    "description": "Replicate API for running ML models and managing predictions",
+    "env_vars": ["REPLICATE_API_TOKEN"],
+    "example_profile": {
+      "api_token_env": "REPLICATE_API_TOKEN",
+      "default_version": "latest"
+    },
+    "actions": ["create_prediction", "get_prediction", "cancel_prediction", "list_models", "get_model"]
+  },
+  "retool": {
+    "description": "Retool API for workflows, resources, and app management",
+    "env_vars": ["RETOOL_API_KEY"],
+    "example_profile": {
+      "api_key_env": "RETOOL_API_KEY",
+      "base_url": "https://your-org.retool.com/api/v2"
+    },
+    "actions": ["trigger_workflow", "list_resources", "query_resource", "list_apps"]
+  },
+  "salesforce": {
+    "description": "Salesforce REST API for objects, records, SOQL queries, and bulk operations",
+    "env_vars": ["SALESFORCE_ACCESS_TOKEN"],
+    "example_profile": {
+      "access_token_env": "SALESFORCE_ACCESS_TOKEN",
+      "instance_url": "https://yourinstance.salesforce.com",
+      "api_version": "v58.0"
+    },
+    "actions": ["query", "get_record", "create_record", "update_record", "delete_record", "describe_object", "bulk_insert"]
+  },
+  "sanity": {
+    "description": "Sanity.io CMS API for documents, assets, and GROQ queries",
+    "env_vars": ["SANITY_TOKEN"],
+    "example_profile": {
+      "project_id": "your-project-id",
+      "dataset": "production",
+      "token_env": "SANITY_TOKEN",
+      "api_version": "2023-05-03"
+    },
+    "actions": ["query", "get_document", "create_document", "patch_document", "delete_document", "upload_asset"]
+  },
+  "sap": {
+    "description": "SAP S/4HANA OData API for business objects and enterprise data",
+    "env_vars": ["SAP_USERNAME", "SAP_PASSWORD"],
+    "example_profile": {
+      "base_url": "https://your-sap-instance.com/sap/opu/odata/sap",
+      "username_env": "SAP_USERNAME",
+      "password_env": "SAP_PASSWORD",
+      "client": "100"
+    },
+    "actions": ["get_entity", "create_entity", "update_entity", "delete_entity", "query_entityset", "execute_function"]
+  },
+  "segment": {
+    "description": "Segment Analytics API for tracking events, identifying users, and managing sources",
+    "env_vars": ["SEGMENT_WRITE_KEY"],
+    "example_profile": {
+      "write_key_env": "SEGMENT_WRITE_KEY",
+      "workspace_slug": "your-workspace"
+    },
+    "actions": ["track", "identify", "page", "group", "alias", "batch"]
+  },
+  "sendgrid": {
+    "description": "SendGrid API for transactional and marketing email",
+    "env_vars": ["SENDGRID_API_KEY"],
+    "example_profile": {
+      "api_key_env": "SENDGRID_API_KEY",
+      "default_from_email": "noreply@example.com"
+    },
+    "actions": ["send_email", "send_template", "list_templates", "add_contact", "list_contacts", "get_stats"]
+  },
+  "sentry": {
+    "description": "Sentry API for error tracking, issues, and project management",
+    "env_vars": ["SENTRY_AUTH_TOKEN"],
+    "example_profile": {
+      "auth_token_env": "SENTRY_AUTH_TOKEN",
+      "organization_slug": "your-org",
+      "default_project": "your-project"
+    },
+    "actions": ["list_issues", "get_issue", "resolve_issue", "list_events", "list_projects", "create_release"]
+  },
+  "servicenow": {
+    "description": "ServiceNow REST API for incidents, requests, and CMDB",
+    "env_vars": ["SERVICENOW_USERNAME", "SERVICENOW_PASSWORD"],
+    "example_profile": {
+      "instance_url": "https://yourinstance.service-now.com",
+      "username_env": "SERVICENOW_USERNAME",
+      "password_env": "SERVICENOW_PASSWORD"
+    },
+    "actions": ["list_incidents", "create_incident", "update_incident", "get_record", "create_record", "query_table"]
+  },
+  "shopify": {
+    "description": "Shopify Admin API for products, orders, customers, and inventory",
+    "env_vars": ["SHOPIFY_ACCESS_TOKEN"],
+    "example_profile": {
+      "shop_domain": "your-store.myshopify.com",
+      "access_token_env": "SHOPIFY_ACCESS_TOKEN",
+      "api_version": "2024-01"
+    },
+    "actions": ["list_products", "create_product", "get_order", "list_orders", "update_inventory", "list_customers"]
+  },
+  "slack": {
+    "description": "Slack Web API for messages, channels, users, and reactions",
+    "env_vars": ["SLACK_BOT_TOKEN"],
+    "example_profile": {
+      "token_env": "SLACK_BOT_TOKEN",
+      "default_channel": "C0123456789"
+    },
+    "actions": ["post_message", "update_message", "add_reaction", "list_channels", "list_users", "upload_file", "get_permalink"]
+  },
+  "spotify": {
+    "description": "Spotify Web API for tracks, playlists, artists, and playback control",
+    "env_vars": ["SPOTIFY_ACCESS_TOKEN"],
+    "example_profile": {
+      "access_token_env": "SPOTIFY_ACCESS_TOKEN",
+      "market": "US"
+    },
+    "actions": ["search", "get_track", "get_playlist", "create_playlist", "add_tracks", "get_playback", "play", "pause"]
+  },
+  "storage": {
+    "description": "Generic cloud storage controller supporting S3-compatible APIs",
+    "env_vars": ["STORAGE_ACCESS_KEY", "STORAGE_SECRET_KEY"],
+    "example_profile": {
+      "access_key_env": "STORAGE_ACCESS_KEY",
+      "secret_key_env": "STORAGE_SECRET_KEY",
+      "endpoint_url": "https://s3.amazonaws.com",
+      "default_bucket": "my-bucket",
+      "region": "us-east-1"
+    },
+    "actions": ["list_buckets", "list_objects", "upload", "download", "delete", "generate_presigned_url"]
+  },
+  "stripe": {
+    "description": "Stripe API for payments, customers, subscriptions, and invoices",
+    "env_vars": ["STRIPE_SECRET_KEY"],
+    "example_profile": {
+      "secret_key_env": "STRIPE_SECRET_KEY",
+      "api_version": "2023-10-16"
+    },
+    "actions": ["create_charge", "create_customer", "list_customers", "create_subscription", "list_invoices", "create_payment_intent", "refund"]
+  },
+  "supabase": {
+    "description": "Supabase API for database, auth, storage, and edge functions",
+    "env_vars": ["SUPABASE_URL", "SUPABASE_KEY"],
+    "example_profile": {
+      "url_env": "SUPABASE_URL",
+      "key_env": "SUPABASE_KEY",
+      "schema": "public"
+    },
+    "actions": ["select", "insert", "update", "delete", "rpc", "upload_file", "sign_in", "sign_up"]
+  },
+  "teams": {
+    "description": "Microsoft Teams API for messages, channels, and team management",
+    "env_vars": ["TEAMS_ACCESS_TOKEN"],
+    "example_profile": {
+      "access_token_env": "TEAMS_ACCESS_TOKEN",
+      "tenant_id": "your-tenant-id"
+    },
+    "actions": ["send_message", "list_teams", "list_channels", "create_channel", "list_members", "get_chat"]
+  },
+  "telegram": {
+    "description": "Telegram Bot API for messages, updates, and inline queries",
+    "env_vars": ["TELEGRAM_BOT_TOKEN"],
+    "example_profile": {
+      "token_env": "TELEGRAM_BOT_TOKEN",
+      "webhook_url": "https://your-domain.com/webhook"
+    },
+    "actions": ["send_message", "send_photo", "send_document", "get_updates", "set_webhook", "answer_callback"]
+  },
+  "terraform": {
+    "description": "Terraform Cloud API for workspaces, runs, and state management",
+    "env_vars": ["TF_API_TOKEN"],
+    "example_profile": {
+      "api_token_env": "TF_API_TOKEN",
+      "organization": "your-org",
+      "hostname": "app.terraform.io"
+    },
+    "actions": ["list_workspaces", "get_workspace", "create_run", "list_runs", "get_state", "lock_workspace", "unlock_workspace"]
+  },
+  "tiktok": {
+    "description": "TikTok API for user info, videos, and content publishing",
+    "env_vars": ["TIKTOK_ACCESS_TOKEN"],
+    "example_profile": {
+      "access_token_env": "TIKTOK_ACCESS_TOKEN",
+      "open_id": "your-open-id"
+    },
+    "actions": ["get_user_info", "list_videos", "upload_video", "query_video", "get_comments"]
+  },
+  "trello": {
+    "description": "Trello API for boards, lists, cards, and members",
+    "env_vars": ["TRELLO_API_KEY", "TRELLO_TOKEN"],
+    "example_profile": {
+      "api_key_env": "TRELLO_API_KEY",
+      "token_env": "TRELLO_TOKEN",
+      "default_board_id": "your-board-id"
+    },
+    "actions": ["list_boards", "get_board", "list_lists", "list_cards", "create_card", "update_card", "move_card", "add_comment"]
+  },
+  "twilio": {
+    "description": "Twilio API for SMS, voice calls, and messaging services",
+    "env_vars": ["TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN"],
+    "example_profile": {
+      "account_sid_env": "TWILIO_ACCOUNT_SID",
+      "auth_token_env": "TWILIO_AUTH_TOKEN",
+      "default_from_number": "+15551234567"
+    },
+    "actions": ["send_sms", "send_mms", "make_call", "list_messages", "get_message", "list_calls"]
+  },
+  "twitch": {
+    "description": "Twitch Helix API for streams, users, channels, and chat",
+    "env_vars": ["TWITCH_CLIENT_ID", "TWITCH_ACCESS_TOKEN"],
+    "example_profile": {
+      "client_id_env": "TWITCH_CLIENT_ID",
+      "access_token_env": "TWITCH_ACCESS_TOKEN"
+    },
+    "actions": ["get_users", "get_streams", "get_channel", "update_channel", "get_clips", "send_chat_message"]
+  },
+  "typeform": {
+    "description": "Typeform API for forms, responses, and themes",
+    "env_vars": ["TYPEFORM_TOKEN"],
+    "example_profile": {
+      "token_env": "TYPEFORM_TOKEN",
+      "default_workspace_id": "your-workspace-id"
+    },
+    "actions": ["list_forms", "get_form", "create_form", "list_responses", "get_response", "delete_response"]
+  },
+  "vapi": {
+    "description": "Vapi AI voice assistant API for calls, assistants, and phone numbers",
+    "env_vars": ["VAPI_API_KEY"],
+    "example_profile": {
+      "api_key_env": "VAPI_API_KEY",
+      "default_assistant_id": "your-assistant-id"
+    },
+    "actions": ["create_call", "get_call", "list_calls", "create_assistant", "list_assistants", "list_phone_numbers"]
+  },
+  "vercel": {
+    "description": "Vercel API for deployments, projects, domains, and environment variables",
+    "env_vars": ["VERCEL_TOKEN"],
+    "example_profile": {
+      "token_env": "VERCEL_TOKEN",
+      "team_id": "team_XXXXXXXXXXXX"
+    },
+    "actions": ["list_deployments", "get_deployment", "create_deployment", "list_projects", "get_project", "list_domains", "set_env_var"]
+  },
+  "vonage": {
+    "description": "Vonage (Nexmo) API for SMS, voice, and messaging",
+    "env_vars": ["VONAGE_API_KEY", "VONAGE_API_SECRET"],
+    "example_profile": {
+      "api_key_env": "VONAGE_API_KEY",
+      "api_secret_env": "VONAGE_API_SECRET",
+      "default_from": "YourApp"
+    },
+    "actions": ["send_sms", "make_call", "send_mms", "verify_request", "verify_check", "list_messages"]
+  },
+  "webflow": {
+    "description": "Webflow CMS API for sites, collections, items, and publishing",
+    "env_vars": ["WEBFLOW_API_TOKEN"],
+    "example_profile": {
+      "api_token_env": "WEBFLOW_API_TOKEN",
+      "default_site_id": "your-site-id"
+    },
+    "actions": ["list_sites", "get_site", "list_collections", "list_items", "create_item", "update_item", "publish_site"]
+  },
+  "webhook": {
+    "description": "Generic webhook controller for sending HTTP requests to external endpoints",
+    "env_vars": ["WEBHOOK_SECRET"],
+    "example_profile": {
+      "default_url": "https://hooks.example.com/webhook",
+      "secret_env": "WEBHOOK_SECRET",
+      "timeout": 30,
+      "retry_count": 3
+    },
+    "actions": ["send", "send_batch", "verify_signature"]
+  },
+  "woocommerce": {
+    "description": "WooCommerce REST API for products, orders, and customers",
+    "env_vars": ["WOOCOMMERCE_KEY", "WOOCOMMERCE_SECRET"],
+    "example_profile": {
+      "store_url": "https://your-store.com",
+      "consumer_key_env": "WOOCOMMERCE_KEY",
+      "consumer_secret_env": "WOOCOMMERCE_SECRET",
+      "api_version": "wc/v3"
+    },
+    "actions": ["list_products", "create_product", "update_product", "list_orders", "get_order", "update_order", "list_customers"]
+  },
+  "wordpress": {
+    "description": "WordPress REST API for posts, pages, media, and users",
+    "env_vars": ["WORDPRESS_APP_PASSWORD"],
+    "example_profile": {
+      "site_url": "https://your-site.com/wp-json",
+      "username": "admin",
+      "app_password_env": "WORDPRESS_APP_PASSWORD"
+    },
+    "actions": ["list_posts", "create_post", "update_post", "list_pages", "upload_media", "list_users"]
+  },
+  "xero": {
+    "description": "Xero Accounting API for invoices, contacts, and bank transactions",
+    "env_vars": ["XERO_ACCESS_TOKEN"],
+    "example_profile": {
+      "access_token_env": "XERO_ACCESS_TOKEN",
+      "tenant_id": "your-tenant-id"
+    },
+    "actions": ["list_invoices", "create_invoice", "list_contacts", "create_contact", "list_accounts", "list_bank_transactions"]
+  },
+  "youtube": {
+    "description": "YouTube Data API v3 for videos, channels, playlists, and comments",
+    "env_vars": ["YOUTUBE_API_KEY"],
+    "example_profile": {
+      "api_key_env": "YOUTUBE_API_KEY",
+      "default_channel_id": "UC_xxxxxxxxxxxxx"
+    },
+    "actions": ["search", "get_video", "list_videos", "get_channel", "list_playlists", "list_playlist_items", "list_comments"]
+  },
+  "zendesk": {
+    "description": "Zendesk Support API for tickets, users, and organizations",
+    "env_vars": ["ZENDESK_API_TOKEN"],
+    "example_profile": {
+      "subdomain": "your-company",
+      "email": "agent@company.com",
+      "api_token_env": "ZENDESK_API_TOKEN"
+    },
+    "actions": ["list_tickets", "get_ticket", "create_ticket", "update_ticket", "add_comment", "list_users", "list_organizations"]
+  },
+  "zoom": {
+    "description": "Zoom API for meetings, users, webinars, and recordings",
+    "env_vars": ["ZOOM_ACCOUNT_ID", "ZOOM_CLIENT_ID", "ZOOM_CLIENT_SECRET"],
+    "example_profile": {
+      "account_id_env": "ZOOM_ACCOUNT_ID",
+      "client_id_env": "ZOOM_CLIENT_ID",
+      "client_secret_env": "ZOOM_CLIENT_SECRET"
+    },
+    "actions": ["list_meetings", "create_meeting", "get_meeting", "delete_meeting", "list_users", "list_recordings", "get_webinar"]
+  }
+}
