@@ -36,16 +36,86 @@ def load_profile(name: str) -> Dict[str, Any]:
     return json.loads(path.read_text())
 
 
+_TOKEN_CACHE: Dict[str, Any] = {"access_token": None, "expires_at": 0}
+_TOKEN_URL = "https://oauth2.googleapis.com/token"
+
+
+def _refresh_access_token() -> str:
+    """Exchange GOOGLE_REFRESH_TOKEN for a fresh access token.
+
+    Uses stdlib urllib — no pip deps. Returns the access token and caches
+    it in-process until ~60 s before expiry.
+    """
+    import time
+    from urllib.parse import urlencode
+
+    refresh_token = os.environ.get("GOOGLE_REFRESH_TOKEN", "")
+    client_id = os.environ.get("GOOGLE_CLIENT_ID", "")
+    client_secret = os.environ.get("GOOGLE_CLIENT_SECRET", "")
+
+    missing = [k for k, v in [
+        ("GOOGLE_REFRESH_TOKEN", refresh_token),
+        ("GOOGLE_CLIENT_ID", client_id),
+        ("GOOGLE_CLIENT_SECRET", client_secret),
+    ] if not v]
+    if missing:
+        raise ValueError(
+            f"Cannot refresh access token — missing env vars: {', '.join(missing)}. "
+            f"Complete OAuth via the marketplace first."
+        )
+
+    body = urlencode({
+        "client_id": client_id,
+        "client_secret": client_secret,
+        "refresh_token": refresh_token,
+        "grant_type": "refresh_token",
+    }).encode("utf-8")
+
+    req = Request(
+        _TOKEN_URL,
+        data=body,
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+        method="POST",
+    )
+    try:
+        with urlopen(req, timeout=15) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except HTTPError as e:
+        detail = e.read().decode("utf-8", errors="replace")
+        raise ValueError(f"Google token refresh failed (HTTP {e.code}): {detail[:300]}")
+
+    access_token = payload.get("access_token", "")
+    expires_in = int(payload.get("expires_in", 3600))
+    if not access_token:
+        raise ValueError(f"Token endpoint returned no access_token: {payload}")
+
+    _TOKEN_CACHE["access_token"] = access_token
+    _TOKEN_CACHE["expires_at"] = time.time() + max(expires_in - 60, 60)
+    # Also export so other callers reading GOOGLE_ACCESS_TOKEN see it
+    os.environ["GOOGLE_ACCESS_TOKEN"] = access_token
+    return access_token
+
+
 def _get_access_token(profile: Dict[str, Any]) -> str:
     """Get OAuth access token.
 
-    In production, this would refresh the token if expired.
+    Order of precedence:
+    1. Env var named by profile (default GOOGLE_ACCESS_TOKEN) if present.
+    2. Cached token minted earlier this process and not yet near expiry.
+    3. Mint a new one from GOOGLE_REFRESH_TOKEN + CLIENT_ID + CLIENT_SECRET.
     """
+    import time
+
     env_var = profile.get("token_env", "GOOGLE_ACCESS_TOKEN")
     token = os.environ.get(env_var, "")
-    if not token:
-        raise ValueError(f"Environment variable '{env_var}' not set")
-    return token
+    if token:
+        return token
+
+    cached = _TOKEN_CACHE.get("access_token")
+    if cached and _TOKEN_CACHE.get("expires_at", 0) > time.time():
+        return cached
+
+    return _refresh_access_token()
 
 
 def _api_call(
