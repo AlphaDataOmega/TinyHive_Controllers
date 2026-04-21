@@ -1,0 +1,30 @@
+{
+  "controller_id": "controller_google",
+  "name": "Google Workspace",
+  "version": "0.1.0",
+  "description": "Google Workspace integration — Gmail, Calendar, Drive, Sheets, Analytics, AdSense (OAuth required)",
+  "category": "productivity",
+  "entry_point": "projects/google.py",
+  "main_function": "execute",
+  "actions": [
+    "list_messages",
+    "send_email",
+    "list_events",
+    "create_event"
+  ],
+  "required_keys": [
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "GOOGLE_REFRESH_TOKEN"
+  ],
+  "dependencies": {
+    "python": "stdlib",
+    "pip": []
+  },
+  "oauth": {
+    "provider": "google",
+    "callback_url_template": "/api/controllers/oauth/callback/google"
+  },
+  "maturity": "skeleton",
+  "notes": "Promoted from examples/google_controller.py. Uses stdlib urllib — no pip deps. Access token must be populated at runtime (via marketplace OAuth callback or refresh cron)."
+}

@@ -1,0 +1,35 @@
+{
+  "controller_id": "controller_google",
+  "name": "Controller Google",
+  "description": "Google Workspace integration — Gmail, Calendar, Drive, Sheets (OAuth required).",
+  "version": "1.0",
+  "keys": [
+    {
+      "key": "GOOGLE_CLIENT_ID",
+      "label": "Google OAuth Client ID",
+      "category": "Google",
+      "required": true,
+      "sensitive": false,
+      "hint": "xxxx.apps.googleusercontent.com",
+      "description": "OAuth 2.0 Client ID from Google Cloud Console"
+    },
+    {
+      "key": "GOOGLE_CLIENT_SECRET",
+      "label": "Google OAuth Client Secret",
+      "category": "Google",
+      "required": true,
+      "sensitive": true,
+      "hint": "GOCSPX-...",
+      "description": "OAuth 2.0 Client Secret"
+    },
+    {
+      "key": "GOOGLE_REFRESH_TOKEN",
+      "label": "Google Refresh Token",
+      "category": "Google",
+      "required": false,
+      "sensitive": true,
+      "hint": "1//...",
+      "description": "Populated automatically after the first OAuth consent. Used to mint short-lived access tokens."
+    }
+  ]
+}
