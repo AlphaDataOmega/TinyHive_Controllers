@@ -37,13 +37,13 @@ CONTROLLER ──→ executes action ──→ external system
 | `controller_hub` | Multi-controller orchestration | None |
 | `controller_ssh` | Local/remote command execution | Optional SSH config |
 | `controller_playwright` | Browser automation | None |
+| `controller_google` | Gmail, Calendar, Drive (skeleton, OAuth) | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN` |
 
 ### Coming Soon
 
 | Controller | Purpose |
 |------------|---------|
 | `controller_telegram` | Telegram bot notifications |
-| `controller_google` | Gmail, Drive, Calendar |
 | `controller_gcp` | Google Cloud Platform |
 | `controller_fal` | Fal.ai image/video generation |
 | `controller_vapi` | Voice AI assistants |

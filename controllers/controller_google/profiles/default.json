@@ -1,0 +1,6 @@
+{
+  "name": "default",
+  "description": "Primary Google workspace account. Access token is read from GOOGLE_ACCESS_TOKEN at call time; populate it via the marketplace OAuth callback or a refresh cron.",
+  "token_env": "GOOGLE_ACCESS_TOKEN",
+  "timeout": 30
+}
