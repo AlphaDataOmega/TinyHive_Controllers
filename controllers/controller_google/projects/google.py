@@ -36,32 +36,49 @@ def load_profile(name: str) -> Dict[str, Any]:
     return json.loads(path.read_text())
 
 
-_TOKEN_CACHE: Dict[str, Any] = {"access_token": None, "expires_at": 0}
+# Per-profile in-process token cache: {access_env_name: {"access_token": ..., "expires_at": ...}}
+# Keying by access_env_name means each profile (webwidgetjames, sterlingtuttle, etc.)
+# gets its own cache slot and refreshes don't clobber each other.
+_TOKEN_CACHE: Dict[str, Dict[str, Any]] = {}
 _TOKEN_URL = "https://oauth2.googleapis.com/token"
 
 
-def _refresh_access_token() -> str:
-    """Exchange GOOGLE_REFRESH_TOKEN for a fresh access token.
+def _refresh_access_token(profile: Dict[str, Any]) -> str:
+    """Exchange the profile's refresh token for a fresh access token.
 
-    Uses stdlib urllib — no pip deps. Returns the access token and caches
-    it in-process until ~60 s before expiry.
+    Uses the profile's ``refresh_env`` / ``token_env`` if declared, so each
+    Google account (default, webwidgetjames, sterlingtuttle, ...) refreshes
+    into its own env slot instead of contaminating the global one. Falls
+    back to ``GOOGLE_REFRESH_TOKEN`` / ``GOOGLE_ACCESS_TOKEN`` when the
+    profile doesn't declare per-profile names (backward-compat).
+
+    Client credentials (CLIENT_ID / CLIENT_SECRET) are shared across
+    profiles — they come from the single OAuth app registered in Google
+    Cloud Console — so those remain global.
+
+    Uses stdlib urllib — no pip deps. Caches the minted token in-process
+    until ~60 s before expiry, keyed by the profile's access-env name.
     """
     import time
     from urllib.parse import urlencode
 
-    refresh_token = os.environ.get("GOOGLE_REFRESH_TOKEN", "")
+    access_env = profile.get("token_env", "GOOGLE_ACCESS_TOKEN")
+    refresh_env = profile.get("refresh_env", "GOOGLE_REFRESH_TOKEN")
+
+    refresh_token = os.environ.get(refresh_env, "")
     client_id = os.environ.get("GOOGLE_CLIENT_ID", "")
     client_secret = os.environ.get("GOOGLE_CLIENT_SECRET", "")
 
     missing = [k for k, v in [
-        ("GOOGLE_REFRESH_TOKEN", refresh_token),
+        (refresh_env, refresh_token),
         ("GOOGLE_CLIENT_ID", client_id),
         ("GOOGLE_CLIENT_SECRET", client_secret),
     ] if not v]
     if missing:
         raise ValueError(
-            f"Cannot refresh access token — missing env vars: {', '.join(missing)}. "
-            f"Complete OAuth via the marketplace first."
+            f"Cannot refresh access token for profile '{profile.get('name','?')}' — "
+            f"missing env vars: {', '.join(missing)}. "
+            f"Complete OAuth for this profile via the marketplace first."
         )
 
     body = urlencode({
@@ -82,27 +99,33 @@ def _refresh_access_token() -> str:
             payload = json.loads(response.read().decode("utf-8"))
     except HTTPError as e:
         detail = e.read().decode("utf-8", errors="replace")
-        raise ValueError(f"Google token refresh failed (HTTP {e.code}): {detail[:300]}")
+        raise ValueError(
+            f"Google token refresh failed for '{profile.get('name','?')}' "
+            f"(HTTP {e.code}): {detail[:300]}"
+        )
 
     access_token = payload.get("access_token", "")
     expires_in = int(payload.get("expires_in", 3600))
     if not access_token:
         raise ValueError(f"Token endpoint returned no access_token: {payload}")
 
-    _TOKEN_CACHE["access_token"] = access_token
-    _TOKEN_CACHE["expires_at"] = time.time() + max(expires_in - 60, 60)
-    # Also export so other callers reading GOOGLE_ACCESS_TOKEN see it
-    os.environ["GOOGLE_ACCESS_TOKEN"] = access_token
+    _TOKEN_CACHE[access_env] = {
+        "access_token": access_token,
+        "expires_at": time.time() + max(expires_in - 60, 60),
+    }
+    # Write the fresh token to this profile's env slot so subsequent reads
+    # (including from other modules) see it.
+    os.environ[access_env] = access_token
     return access_token
 
 
 def _get_access_token(profile: Dict[str, Any]) -> str:
-    """Get OAuth access token.
+    """Get OAuth access token for a profile.
 
     Order of precedence:
-    1. Env var named by profile (default GOOGLE_ACCESS_TOKEN) if present.
-    2. Cached token minted earlier this process and not yet near expiry.
-    3. Mint a new one from GOOGLE_REFRESH_TOKEN + CLIENT_ID + CLIENT_SECRET.
+    1. Env var named by the profile (``token_env``, default GOOGLE_ACCESS_TOKEN).
+    2. Per-profile in-process cache (keyed by the access-env name).
+    3. Refresh from the profile's refresh token.
     """
     import time
 
@@ -111,11 +134,11 @@ def _get_access_token(profile: Dict[str, Any]) -> str:
     if token:
         return token
 
-    cached = _TOKEN_CACHE.get("access_token")
-    if cached and _TOKEN_CACHE.get("expires_at", 0) > time.time():
-        return cached
+    cached = _TOKEN_CACHE.get(env_var) or {}
+    if cached.get("access_token") and cached.get("expires_at", 0) > time.time():
+        return cached["access_token"]
 
-    return _refresh_access_token()
+    return _refresh_access_token(profile)
 
 
 def _api_call(
