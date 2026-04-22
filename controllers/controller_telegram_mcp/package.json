@@ -1,0 +1,37 @@
+{
+  "controller_id": "controller_telegram_mcp",
+  "name": "Telegram (Personal)",
+  "version": "0.1.0",
+  "description": "Telegram MTProto client via the mcp-telegram MCP server — full personal account access.",
+  "category": "communication",
+  "entry_point": "projects/telegram_mcp.py",
+  "main_function": "execute",
+  "actions": [
+    "list_chats",
+    "get_messages",
+    "send_message",
+    "search_messages",
+    "get_contacts",
+    "download_media"
+  ],
+  "required_keys": [
+    "TELEGRAM_API_ID",
+    "TELEGRAM_API_HASH"
+  ],
+  "dependencies": {
+    "python": "requires pip deps",
+    "pip": ["mcp", "mcp-telegram"]
+  },
+  "mcp": {
+    "server_command": "mcp-telegram",
+    "server_args": ["start"],
+    "transport": "stdio"
+  },
+  "setup_steps": [
+    "pip install mcp mcp-telegram",
+    "Set TELEGRAM_API_ID and TELEGRAM_API_HASH via the marketplace credential UI",
+    "Run `mcp-telegram login` once to create the session file (phone + SMS code flow)"
+  ],
+  "maturity": "skeleton",
+  "notes": "First-pass: spawns mcp-telegram per action call (stdio). Persistent in-process session is a follow-up. Auth is a one-time user-interactive step; not automatable via inbox."
+}
