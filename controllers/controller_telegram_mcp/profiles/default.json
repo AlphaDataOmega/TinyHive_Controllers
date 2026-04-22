@@ -1,0 +1,8 @@
+{
+  "name": "default",
+  "description": "Primary Telegram personal account. Session file uses mcp-telegram's XDG default location.",
+  "api_id_env": "TELEGRAM_API_ID",
+  "api_hash_env": "TELEGRAM_API_HASH",
+  "session_path": null,
+  "timeout": 30
+}

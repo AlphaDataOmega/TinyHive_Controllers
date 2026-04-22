@@ -1,0 +1,29 @@
+{
+  "controller_id": "controller_telegram_mcp",
+  "name": "Controller Telegram (Personal)",
+  "description": "Telegram MTProto personal-account access via the mcp-telegram MCP server.",
+  "version": "1.0",
+  "keys": [
+    {
+      "key": "TELEGRAM_API_ID",
+      "label": "Telegram API ID",
+      "category": "Telegram",
+      "required": true,
+      "sensitive": false,
+      "hint": "1234567",
+      "description": "Numeric App ID from https://my.telegram.org/apps"
+    },
+    {
+      "key": "TELEGRAM_API_HASH",
+      "label": "Telegram API Hash",
+      "category": "Telegram",
+      "required": true,
+      "sensitive": true,
+      "hint": "0123456789abcdef0123456789abcdef",
+      "description": "App Hash (hex) from https://my.telegram.org/apps"
+    }
+  ],
+  "setup_notes": [
+    "After entering credentials, run `mcp-telegram login` in a shell to perform the interactive phone + SMS code verification. This creates the session file mcp-telegram reads at runtime."
+  ]
+}
